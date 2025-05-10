@@ -67,3 +67,4 @@ C:\Users\trans\OneDrive\Masaüstü\IdentityApp\bin\Debug\net8.0\Humanizer.dll
 C:\Users\trans\OneDrive\Masaüstü\IdentityApp\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\trans\OneDrive\Masaüstü\IdentityApp\bin\Debug\net8.0\Mono.TextTemplating.dll
 C:\Users\trans\OneDrive\Masaüstü\IdentityApp\bin\Debug\net8.0\System.CodeDom.dll
+C:\Users\trans\OneDrive\Masaüstü\IdentityApp\obj\Debug\net8.0\IdentityApp.sourcelink.json

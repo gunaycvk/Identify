@@ -14,6 +14,12 @@
         </thead>
 
         <tbody>
+            @if(Model.Count()==0){
+
+            <tr>
+                <td colspan="4" class="text-center">Role Yok</td>
+            </tr>
+            }
             @foreach(var user in Model){
             <tr>
                 <td>@user.Id</td>

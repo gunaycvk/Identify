@@ -2,6 +2,7 @@ using IdentityApp.Models;
 using IdentityApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace IdentityApp.Controllers
@@ -11,9 +12,11 @@ namespace IdentityApp.Controllers
     {
 
         private UserManager<AppUser> _usermanager;
-        public UsersController(UserManager<AppUser> userManager)
+        private RoleManager<AppRole> _roleManager;
+        public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _usermanager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -33,7 +36,7 @@ namespace IdentityApp.Controllers
             {
                 var user = new AppUser
                 {
-                    UserName = model.FullName,
+                    UserName = "user" + new Random().Next(1, 999999),
                     Email = model.Email,
                     FullName = model.FullName
                 };
@@ -67,11 +70,14 @@ namespace IdentityApp.Controllers
             if (user != null)
             {
 
+                ViewBag.Roles = await _roleManager.Roles.Select(i => i.Name).ToListAsync();
+
                 return View(new EditViewModel
                 {
                     Id = user.Id,
                     FullName = user.FullName,
                     Email = user.Email,
+                    SelectedRoles = await _usermanager.GetRolesAsync(user)
 
                 });
 
@@ -103,6 +109,13 @@ namespace IdentityApp.Controllers
 
                     if (result.Succeeded)
                     {
+
+                        await _usermanager.RemoveFromRolesAsync(user, await _usermanager.GetRolesAsync(user));
+                        if (model.SelectedRoles != null)
+                        {
+                            await _usermanager.AddToRolesAsync(user, model.SelectedRoles);
+
+                        }
                         return RedirectToAction("Index");
 
                     }
